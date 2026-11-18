@@ -1,4 +1,14 @@
+<p align="center"><img src="docs/banner.svg" alt="PyQt 학습 도우미: 코드의 self.btnGreet과 미리보기의 인사 버튼이 이어진 그림" width="100%"></p>
+
 # PyQt 학습 도우미
+
+코드의 위젯 이름에 마우스를 올리면 화면의 그 위젯이 보이는 PyQt5 학습 도구입니다.
+
+**[설치 파일 받기](https://github.com/Dawnilove/PyQt_StudyHelper/releases/latest)** | **[사이트에서 직접 해 보기](https://dawnilove.github.io/PyQt_StudyHelper/)**
+
+1. 설치 파일(`PyQtStudyHelper-Setup-1.6.0.exe`)을 받아 실행합니다. Python이 함께 들어 있습니다.
+2. **Ctrl+O**로 `Main.py`를 엽니다. 맞는 `.ui`가 미리보기에 뜹니다.
+3. 코드의 파란 이름에 마우스를 올립니다. 미리보기에서 그 위젯이 표시됩니다.
 
 [![tests](https://github.com/Dawnilove/PyQtStudyHelper/actions/workflows/test.yml/badge.svg)](https://github.com/Dawnilove/PyQtStudyHelper/actions/workflows/test.yml)
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)

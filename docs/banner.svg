@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="400" viewBox="0 0 1280 400" role="img" aria-labelledby="t d">
+  <title id="t">PyQt 학습 도우미</title>
+  <desc id="d">코드의 self.btnGreet 이름과 미리보기의 인사 버튼이 선으로 이어진 그림</desc>
+  <rect width="1280" height="400" fill="#f3f4f6"/>
+  <text x="64" y="104" font-family="Batang, 'Gowun Batang', serif" font-weight="700" font-size="56" fill="#1f2328">PyQt 학습 도우미</text>
+  <text x="64" y="150" font-family="'Malgun Gothic', sans-serif" font-size="24" fill="#57606a">코드의 이름과 화면의 버튼을 잇는다</text>
+  <!-- code panel -->
+  <rect x="64" y="200" width="660" height="148" rx="4" fill="#ffffff" stroke="#d0d7de"/>
+  <g font-family="Consolas, 'JetBrains Mono', monospace" font-size="20">
+    <text x="88" y="240" fill="#a3a9b1">10</text>
+    <text x="136" y="240" fill="#1f2328"><tspan fill="#94558d" font-style="italic">self</tspan>.setupUi(<tspan fill="#94558d" font-style="italic">self</tspan>)</text>
+    <rect x="76" y="258" width="636" height="34" fill="#fff4c2"/>
+    <text x="88" y="282" fill="#a3a9b1">11</text>
+    <rect x="186" y="262" width="100" height="27" rx="2" fill="#ffd666"/>
+    <text x="136" y="282" fill="#1f2328"><tspan fill="#94558d" font-style="italic">self</tspan>.<tspan text-decoration="underline">btnGreet</tspan>.clicked.connect(<tspan fill="#94558d" font-style="italic">self</tspan>.greet)</text>
+    <text x="88" y="324" fill="#a3a9b1">12</text>
+    <text x="136" y="324" fill="#1f2328"><tspan fill="#94558d" font-style="italic">self</tspan>.<tspan fill="#0b6bcb" text-decoration="underline">btnClear</tspan>.clicked.connect(<tspan fill="#94558d" font-style="italic">self</tspan>.clear_all)</text>
+  </g>
+  <!-- link line -->
+  <path d="M712 275 C 800 275, 820 270, 896 270" fill="none" stroke="#2f6fd0" stroke-width="2"/>
+  <!-- preview panel -->
+  <rect x="780" y="64" width="436" height="284" rx="4" fill="#e9edf2" stroke="#d0d7de"/>
+  <text x="800" y="96" font-family="'Malgun Gothic', sans-serif" font-size="18" fill="#57606a">미리보기: greeting.ui</text>
+  <rect x="804" y="150" width="388" height="40" rx="2" fill="#ffffff" stroke="#d0d7de"/>
+  <text x="818" y="176" font-family="'Malgun Gothic', sans-serif" font-size="18" fill="#57606a">이름</text>
+  <rect x="900" y="250" width="138" height="40" rx="2" fill="#ffffff" stroke="#d0d7de"/>
+  <rect x="896" y="246" width="146" height="48" rx="3" fill="none" stroke="#2f6fd0" stroke-width="2.5"/>
+  <rect x="896" y="218" width="96" height="24" rx="2" fill="#2f6fd0"/>
+  <text x="904" y="236" font-family="Consolas, monospace" font-size="16" fill="#ffffff">btnGreet</text>
+  <text x="969" y="276" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="18" fill="#1f2328">인사</text>
+  <rect x="1054" y="250" width="138" height="40" rx="2" fill="#ffffff" stroke="#d0d7de"/>
+  <text x="1123" y="276" text-anchor="middle" font-family="'Malgun Gothic', sans-serif" font-size="18" fill="#1f2328">지우기</text>
+</svg>

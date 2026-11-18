@@ -1,0 +1,33 @@
+:root {
+  --space-3xs: 2px; --space-2xs: 4px; --space-xs: 8px; --space-sm: 12px; --space-md: 16px; --space-lg: 24px; --space-xl: 40px; --space-2xl: 64px; --space-3xl: 96px; --space-4xl: 144px;
+  --text-xs: 0.8125rem; --text-sm: 0.875rem; --text-md: 1rem; --text-lg: 1.25rem; --text-xl: 1.5625rem; --text-2xl: 1.953rem; --text-3xl: 2.441rem;
+  --text-display-s: clamp(2.25rem, 4vw + 0.5rem, 3.75rem); --text-display: clamp(2.75rem, 5vw + 1rem, 5.25rem);
+  --text-section: clamp(2rem, 2.5vw + 1rem, 3.5rem); --text-title: clamp(1.25rem, 0.75vw + 0.875rem, 1.625rem); --text-lead: clamp(1.125rem, 0.35vw + 1rem, 1.375rem);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1); --ease-in: cubic-bezier(0.7, 0, 0.84, 0); --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-micro: 120ms; --dur-short: 220ms; --dur-long: 420ms;
+  --color-error: oklch(52% 0.19 27); --color-success: oklch(50% 0.12 150);
+  --container: 1440px; --gutter: 64px; --gap-columns: 32px; --section-gap-s: 120px; --section-gap: 144px; --section-gap-l: 176px;
+  --z-base: 1; --z-raised: 10; --z-dropdown: 100; --z-sticky: 200; --z-sticky-nav: 300; --z-modal: 400; --z-toast: 500; --z-tooltip: 600;
+  color-scheme: light dark;
+  /* app palette from studyhelper/theme.py (light) */
+  --color-paper: #f3f4f6; --color-paper-2: #e9edf2; --color-paper-3: #ffffff;
+  --color-ink: #1f2328; --color-ink-2: #3b4249; --color-muted: #57606a;
+  --color-rule: #d0d7de;
+  --color-accent: #2f6fd0; --color-accent-ink: #ffffff; --color-focus: #255db3;
+  --color-mark-line: #fff4c2; --color-mark-word: #ffd666; --color-warn: #c92a2a;
+  --code-kw: #0033b3; --code-self: #94558d; --code-str: #067d17; --code-widget: #0b6bcb; --code-comment: #8c8c8c; --code-gutter: #a3a9b1;
+  --font-display: "Gowun Batang", "Batang", ui-serif, serif; --font-body: "Gowun Dodum", "Malgun Gothic", ui-sans-serif, system-ui, sans-serif; --font-outlier: "JetBrains Mono", Consolas, ui-monospace, monospace;
+  --radius-card: 4px; --radius-pill: 4px; --rule-hair: 1px; --shadow-card: none;
+  --tracking-display: -0.02em;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-paper: #1f2124; --color-paper-2: #2a2e34; --color-paper-3: #181a1d;
+    --color-ink: #e6e6e6; --color-ink-2: #d5d9de; --color-muted: #9aa0a8;
+    --color-rule: #40454d;
+    --color-accent: #4d8fe6; --color-accent-ink: #0f1115; --color-focus: #6aa2ec;
+    --color-mark-line: #4a4220; --color-mark-word: #6b5414; --color-warn: #ff8787;
+    --code-kw: #6fa8ff; --code-self: #c792ea; --code-str: #8bc98b; --code-widget: #4da3ff; --code-comment: #7a8088; --code-gutter: #5f666e;
+  }
+}

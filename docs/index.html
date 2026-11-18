@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PyQt 학습 도우미: 코드와 화면을 이어서 배우는 PyQt5</title>
+<meta name="description" content="Qt Designer의 .ui와 직접 짠 Main.py를 나란히 놓고, 위젯 이름과 화면을 이어서 보며 PyQt5를 익히는 Windows 학습 도구.">
+<meta property="og:title" content="PyQt 학습 도우미">
+<meta property="og:description" content="코드의 위젯 이름과 화면의 위젯을 이어서 보며 PyQt5를 배운다.">
+<meta property="og:image" content="https://dawnilove.github.io/PyQt_StudyHelper/screenshot.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Gowun+Dodum&family=JetBrains+Mono:wght@400&display=swap">
+<style>
+/* Hallmark · shape: Split Studio · genre: modern-minimal · theme: brand · draw: 4dd042
+ * paper: #f3f4f6 (app window) · accent: #2f6fd0 (app accent) · display: Gowun Batang 700 · body: Gowun Dodum · hero: Banner · nav: slab · footer: statement · signature: hover a widget name in Main.py and the preview shows that widget; press a widget and its code lines light up
+ * axes: light/roman-serif/cool · posture: committed · contrast: pass · fold: pass · modes: light+dark · v2.0.0 */
+/* Hallmark · swap: the draw left out Steps; the install route is set as two ruled rows, not a numbered steps band */
+/* Hallmark · waive 39b · button.w is a widget name inside a code line · it must keep the code's line height, and the preview widgets beside it are the 40px targets */
+/* Hallmark · waive 79 · the 1440 render shows the code and preview studio filling y 300 to the fold · the lint counts the head block as the hero; the studio below it is the hero's picture */
+/* Hallmark · waive 26b · not a form control, no aria-disabled anywhere · no control on this page is ever disabled */
+/* Hallmark · dismissed 41 · paper-2 is dark only in the dark block, where ink is light; footer text inherits ink */
+/* Hallmark · dismissed 28a · the screenshot sits in the second section, below every fold; the hero is text and live code */
+/* Hallmark · pre-emit critique: P4 H5 E4 S5 R4 V4 · weakest: V, the page is mostly code and type; the real app screenshot carries the second screen so the page shows the product, not a drawing of it */
+@import url("./tokens.css");
+@import url("./base.css");
+
+:root { --display-weight: 700; }
+h1, h2, h3, p, li, dd, dt, figcaption { word-break: keep-all; }
+
+/* nav: a slab across the top */
+.slab { background: var(--color-paper-2); border-bottom: var(--rule-hair) solid var(--color-rule); }
+.slab .container { display: flex; align-items: center; justify-content: space-between; gap: var(--space-md); min-height: 64px; flex-wrap: wrap; }
+.wordmark { font-family: var(--font-display); font-weight: 700; font-size: var(--text-lg); text-decoration: none; }
+.slab nav { display: flex; gap: var(--space-lg); align-items: center; font-size: var(--text-sm); }
+.slab nav a { text-decoration: none; }
+.slab nav a:hover { text-decoration: underline; }
+
+.btn { display: inline-flex; align-items: center; min-height: 44px; padding: 0 var(--space-lg); border-radius: var(--radius-pill); font-weight: 400; text-decoration: none; border: var(--rule-hair) solid var(--color-accent); background: var(--color-accent); color: var(--color-accent-ink); transition: background-color var(--dur-micro) var(--ease-out), transform var(--dur-micro) var(--ease-out); }
+.btn:hover { background: var(--color-focus); border-color: var(--color-focus); }
+.btn:active { transform: translateY(1px); }
+.btn.quiet { background: transparent; color: var(--color-ink); border-color: var(--color-rule); }
+.btn.quiet:hover { background: var(--color-paper-2); }
+.slab .btn { min-height: 36px; padding: 0 var(--space-md); }
+
+/* hero: banner headline, then the studio */
+.hero { padding-block: var(--space-2xl) var(--space-3xl); }
+.hero-head { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: var(--gap-columns); align-items: end; }
+.hero h1 { font-size: var(--text-display-s); max-width: 16ch; }
+.hero .lead { color: var(--color-ink-2); margin-bottom: var(--space-lg); }
+.actions { display: flex; gap: var(--space-sm); flex-wrap: wrap; }
+
+.studio { margin-top: var(--space-2xl); display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); border: var(--rule-hair) solid var(--color-rule); border-radius: var(--radius-card); background: var(--color-paper-3); }
+.pane-title { margin: 0; padding: var(--space-xs) var(--space-md); font-size: var(--text-sm); color: var(--color-muted); border-bottom: var(--rule-hair) solid var(--color-rule); }
+.code-pane { border-right: var(--rule-hair) solid var(--color-rule); min-width: 0; }
+.code { margin: 0; padding: var(--space-sm) 0; overflow-x: auto; font-family: var(--font-outlier); font-size: 0.875rem; line-height: 1.6; color: var(--color-ink); }
+.code .ln { display: block; padding-inline: var(--space-md); white-space: pre; transition: background-color var(--dur-short) var(--ease-out); }
+.code .ln::before { content: attr(data-n); display: inline-block; width: 2.5ch; margin-right: 1.5ch; text-align: right; color: var(--code-gutter); }
+.code .ln.lit { background: var(--color-mark-line); }
+.kw { color: var(--code-kw); font-weight: 400; }
+.sf { color: var(--code-self); font-style: italic; }
+.st { color: var(--code-str); }
+.w { font: inherit; color: var(--code-widget); background: none; border: 0; padding: 0; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; cursor: pointer; border-radius: 2px; }
+.w:hover, .w.on { background: var(--color-mark-word); color: var(--color-ink); }
+.w:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 1px; }
+
+.preview-pane { display: flex; flex-direction: column; min-width: 0; background: var(--color-paper); }
+.form { flex: 1; display: grid; align-content: center; gap: var(--space-md); padding: var(--space-xl) var(--space-lg); }
+.qw { position: relative; font: inherit; color: var(--color-ink); text-align: left; background: none; border: var(--rule-hair) dashed transparent; border-radius: 2px; padding: var(--space-xs); cursor: pointer; transition: border-color var(--dur-micro) var(--ease-out), background-color var(--dur-micro) var(--ease-out); }
+.qw:hover { border-color: var(--color-rule); }
+.qw.edit { background: var(--color-paper-3); border: var(--rule-hair) solid var(--color-rule); min-height: 40px; color: var(--color-muted); }
+.qw.push { background: var(--color-paper-3); border: var(--rule-hair) solid var(--color-rule); text-align: center; min-height: 40px; }
+.qw.label { min-height: 40px; }
+.qw.empty { color: var(--color-muted); font-size: var(--text-sm); }
+.row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-sm); }
+.qw.on { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+.qw .tag { position: absolute; left: 0; bottom: calc(100% + 4px); padding: 0 var(--space-xs); font-family: var(--font-outlier); font-size: var(--text-xs); line-height: 1.6; background: var(--color-accent); color: var(--color-accent-ink); border-radius: 2px; transform: translateY(2px); transition: opacity var(--dur-micro) var(--ease-out), transform var(--dur-micro) var(--ease-out); pointer-events: none; white-space: nowrap; }
+/* without script the tags sit inline, so they name each widget without covering the one above */
+html:not(.js) .qw .tag { position: static; display: inline-block; margin-right: var(--space-xs); transform: none; }
+.js .qw .tag { opacity: 0; }
+.js .qw.on .tag { opacity: 1; transform: none; }
+.status { grid-column: 1 / -1; margin: 0; min-height: 2.5em; padding: var(--space-xs) var(--space-md); border-top: var(--rule-hair) solid var(--color-rule); font-size: var(--text-sm); color: var(--color-ink-2); background: var(--color-paper-2); }
+.hint { margin-top: var(--space-sm); font-size: var(--text-sm); color: var(--color-muted); }
+
+/* sections */
+section { padding-block: var(--section-gap-s); border-top: var(--rule-hair) solid var(--color-rule); }
+.split { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: var(--gap-columns); align-items: start; }
+.split > div > p { color: var(--color-ink-2); margin-top: var(--space-md); }
+
+.switch { display: flex; gap: var(--space-xs); margin-bottom: var(--space-md); }
+.switch button { font: inherit; font-size: var(--text-sm); min-height: 40px; padding: 0 var(--space-md); border: var(--rule-hair) solid var(--color-rule); border-radius: var(--radius-pill); background: transparent; color: var(--color-ink); cursor: pointer; transition: background-color var(--dur-micro) var(--ease-out); }
+.switch button:hover { background: var(--color-paper-2); }
+.switch button[aria-pressed="true"] { background: var(--color-paper-2); border-color: var(--color-accent); box-shadow: inset 0 0 0 1px var(--color-accent); }
+.shot { margin: 0; }
+.shot img { border: var(--rule-hair) solid var(--color-rule); border-radius: var(--radius-card); width: 100%; }
+.shot figcaption { margin-top: var(--space-sm); font-size: var(--text-sm); color: var(--color-muted); }
+
+.fix { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-md); }
+.fix pre { margin: 0; padding: var(--space-md); overflow-x: auto; font-family: var(--font-outlier); font-size: 0.875rem; background: var(--color-paper-3); border: var(--rule-hair) solid var(--color-rule); border-radius: var(--radius-card); }
+.fix .bad { text-decoration: underline wavy var(--color-warn); text-underline-offset: 0.3em; }
+.fix .msg { color: var(--color-warn); font-size: var(--text-sm); }
+.fix .lbl { font-size: var(--text-sm); color: var(--color-muted); margin-bottom: var(--space-2xs); }
+.also { margin: var(--space-md) 0 0; padding-left: 1.2em; color: var(--color-ink-2); }
+
+.terms { margin: 0; display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 7fr); }
+.terms dt, .terms dd { margin: 0; padding-block: var(--space-md); border-bottom: var(--rule-hair) solid var(--color-rule); }
+.terms dt { font-family: var(--font-display); font-weight: 700; font-size: var(--text-lg); padding-right: var(--space-md); }
+.terms dd { color: var(--color-ink-2); }
+
+.get { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: var(--gap-columns); align-items: center; }
+.get .route { margin-top: var(--space-lg); border-top: var(--rule-hair) solid var(--color-rule); }
+.get .route > div { padding-block: var(--space-md); border-bottom: var(--rule-hair) solid var(--color-rule); }
+.get .route h3 { font-size: var(--text-lg); margin-bottom: var(--space-2xs); }
+.get .route p { color: var(--color-ink-2); }
+.get code, .keys code { font-family: var(--font-outlier); font-size: 0.875em; }
+.get pre { margin: var(--space-xs) 0 0; overflow-x: auto; font-family: var(--font-outlier); font-size: 0.8125rem; line-height: 1.6; padding: var(--space-sm); background: var(--color-paper-3); border: var(--rule-hair) solid var(--color-rule); border-radius: var(--radius-card); }
+.get .actions { margin-top: var(--space-lg); }
+
+.keys { margin-top: var(--space-xl); border-collapse: collapse; width: 100%; font-size: var(--text-sm); }
+.keys th, .keys td { text-align: left; padding: var(--space-xs) var(--space-sm) var(--space-xs) 0; border-bottom: var(--rule-hair) solid var(--color-rule); font-weight: 400; }
+.keys th { color: var(--color-muted); }
+
+footer { background: var(--color-paper-2); border-top: var(--rule-hair) solid var(--color-rule); padding-block: var(--space-3xl) var(--space-xl); }
+footer .say { font-family: var(--font-display); font-weight: 700; font-size: var(--text-section); line-height: 1.15; max-width: 18ch; overflow-wrap: break-word; min-width: 0; }
+footer .links { margin-top: var(--space-xl); display: flex; flex-wrap: wrap; gap: var(--space-lg); font-size: var(--text-sm); }
+footer .credit { margin-top: var(--space-lg); font-size: var(--text-sm); color: var(--color-muted); max-width: 65ch; }
+
+@media (max-width: 60rem) {
+  .hero-head, .studio, .split, .get { grid-template-columns: minmax(0, 1fr); }
+  .code-pane { border-right: 0; border-bottom: var(--rule-hair) solid var(--color-rule); }
+  .slab nav .hide-s { display: none; }
+}
+@media (max-width: 40rem) {
+  .terms { grid-template-columns: minmax(0, 1fr); }
+  .terms dt { border-bottom: 0; padding-bottom: 0; }
+  .code, .fix pre { font-size: 0.8125rem; }
+  .form { padding: var(--space-xl) var(--space-md); }
+}
+</style>
+</head>
+<body>
+<header class="slab">
+  <div class="container">
+    <a class="wordmark" href="./">PyQt 학습 도우미</a>
+    <nav aria-label="주 메뉴">
+      <a class="hide-s" href="https://github.com/Dawnilove/PyQt_StudyHelper/blob/main/docs/FEATURES.md">기능 설명</a>
+      <a href="https://github.com/Dawnilove/PyQt_StudyHelper">GitHub</a>
+      <a class="btn" href="https://github.com/Dawnilove/PyQt_StudyHelper/releases/latest">받기</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<div class="hero container">
+  <div class="hero-head">
+    <h1>코드의 이름과 화면의 버튼을 잇는다</h1>
+    <div>
+      <p class="lead">.ui와 Main.py를 나란히 놓고 PyQt5를 눈으로 보며 익히는 Windows 학습 도구입니다.</p>
+      <div class="actions">
+        <a class="btn" href="https://github.com/Dawnilove/PyQt_StudyHelper/releases/latest">설치 파일 받기</a>
+        <a class="btn quiet" href="#get">설치 방법</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="studio" id="studio">
+    <div class="code-pane" role="region" aria-label="Main.py 코드. 파란 이름은 버튼입니다.">
+      <p class="pane-title">Main.py</p>
+<pre class="code"><span class="ln" data-n="1"><span class="kw">import</span> sys</span><span class="ln" data-n="2"><span class="kw">from</span> PyQt5.QtWidgets <span class="kw">import</span> *</span><span class="ln" data-n="3"><span class="kw">from</span> PyQt5 <span class="kw">import</span> uic</span><span class="ln" data-n="4"></span><span class="ln" data-n="5">form_class = uic.loadUiType(<span class="st">"greeting.ui"</span>)[0]</span><span class="ln" data-n="6"></span><span class="ln" data-n="7"><span class="kw">class</span> MainWindow(QMainWindow, form_class):</span><span class="ln" data-n="8">    <span class="kw">def</span> __init__(<span class="sf">self</span>):</span><span class="ln" data-n="9">        super().__init__()</span><span class="ln" data-n="10">        <span class="sf">self</span>.setupUi(<span class="sf">self</span>)</span><span class="ln" data-n="11">        <span class="sf">self</span>.<button class="w" data-w="btnGreet">btnGreet</button>.clicked.connect(<span class="sf">self</span>.greet)</span><span class="ln" data-n="12">        <span class="sf">self</span>.<button class="w" data-w="btnClear">btnClear</button>.clicked.connect(<span class="sf">self</span>.clear_all)</span><span class="ln" data-n="13"></span><span class="ln" data-n="14">    <span class="kw">def</span> greet(<span class="sf">self</span>):</span><span class="ln" data-n="15">        name = <span class="sf">self</span>.<button class="w" data-w="edtName">edtName</button>.text()</span><span class="ln" data-n="16">        <span class="sf">self</span>.<button class="w" data-w="lblResult">lblResult</button>.setText(<span class="st">f"안녕하세요, {name}님!"</span>)</span><span class="ln" data-n="17"></span><span class="ln" data-n="18">    <span class="kw">def</span> clear_all(<span class="sf">self</span>):</span><span class="ln" data-n="19">        <span class="sf">self</span>.<button class="w" data-w="edtName">edtName</button>.clear()</span><span class="ln" data-n="20">        <span class="sf">self</span>.<button class="w" data-w="lblResult">lblResult</button>.setText(<span class="st">""</span>)</span></pre>
+    </div>
+    <div class="preview-pane">
+      <p class="pane-title">미리보기: greeting.ui</p>
+      <div class="form" role="group" aria-label="greeting.ui 미리보기. 위젯을 누르면 그 위젯을 쓰는 코드 줄이 표시됩니다.">
+        <button class="qw label" data-w="lblTitle" data-cls="QLabel"><span class="tag" aria-hidden="true">lblTitle</span>이름을 입력하세요</button>
+        <button class="qw edit" data-w="edtName" data-cls="QLineEdit"><span class="tag" aria-hidden="true">edtName</span>이름</button>
+        <div class="row">
+          <button class="qw push" data-w="btnGreet" data-cls="QPushButton"><span class="tag" aria-hidden="true">btnGreet</span>인사</button>
+          <button class="qw push" data-w="btnClear" data-cls="QPushButton"><span class="tag" aria-hidden="true">btnClear</span>지우기</button>
+        </div>
+        <button class="qw label empty" data-w="lblResult" data-cls="QLabel"><span class="tag" aria-hidden="true">lblResult</span>(빈 글자)</button>
+      </div>
+    </div>
+    <p class="status" id="status" aria-live="polite">코드의 파란 이름에 마우스를 올리거나, 미리보기의 위젯을 누릅니다.</p>
+  </div>
+  <p class="hint">프로그램 안에서도 똑같이 동작합니다. 위젯 이름은 <code>.ui</code>의 objectName입니다.</p>
+</div>
+
+<section aria-labelledby="h-screen">
+  <div class="container split">
+    <div>
+      <h2 id="h-screen">한 창에서 네 곳을 봅니다</h2>
+      <p>왼쪽부터 학습 폴더, 미리보기, 코드, 선택한 위젯과 줄 해설입니다. 아래에는 실행 결과와 검사 결과가 나옵니다.</p>
+    </div>
+    <div>
+      <div class="switch" role="group" aria-label="화면 테마">
+        <button type="button" data-shot="screenshot.png" aria-pressed="true">밝은 테마</button>
+        <button type="button" data-shot="screenshot-dark.png" aria-pressed="false">어두운 테마</button>
+      </div>
+      <figure class="shot">
+        <img id="shot" src="screenshot.png" width="1500" height="900" alt="PyQt 학습 도우미 창. 코드에서 btnGreet 줄이 선택되어 있고, 미리보기에서 인사 버튼이 빨간 상자로 표시됩니다." loading="lazy">
+        <figcaption>실제 프로그램 화면, 버전 1.6.0</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section aria-labelledby="h-fix">
+  <div class="container split">
+    <div>
+      <h2 id="h-fix">실행하기 전에 실수를 잡습니다</h2>
+      <p>저장하면 검사가 돌고, 틀린 곳에 밑줄과 쉬운 설명이 붙습니다.</p>
+    </div>
+    <div class="fix">
+      <div>
+        <p class="lbl">고치기 전</p>
+        <pre><code>self.btnClear.clicked.connect(<span class="bad">self.clear_all()</span>)</code></pre>
+        <p class="msg">괄호를 붙이면 지금 바로 실행돼요. 함수 이름만 넘겨요.</p>
+      </div>
+      <div>
+        <p class="lbl">고친 뒤</p>
+        <pre><code>self.btnClear.clicked.connect(self.clear_all)</code></pre>
+      </div>
+      <ul class="also">
+        <li><code>.ui</code>에 없는 위젯 이름 (오타)</li>
+        <li><code>setupUi</code> 빠뜨림</li>
+        <li><code>self.</code> 빠뜨림</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section aria-labelledby="h-more">
+  <div class="container split">
+    <h2 id="h-more">막히는 곳마다 도움이 있습니다</h2>
+    <dl class="terms">
+      <dt>줄 해설</dt><dd>줄을 누르면 무엇을, 왜, 주의할 점을 인터넷 없이 설명합니다. 규칙은 170여 가지입니다.</dd>
+      <dt>에러 해설</dt><dd>F5로 실행합니다. 에러가 나면 쉬운 말로 풀고 그 줄로 이동합니다.</dd>
+      <dt>코드 대신 넣기</dt><dd>위젯을 우클릭하면 시그널 연결 코드와 함수 틀을 만듭니다.</dd>
+      <dt>.ui 편집</dt><dd>미리보기에서 위젯을 추가, 삭제하고 속성을 고칩니다. 되돌리기가 됩니다.</dd>
+      <dt>AI 해설</dt><dd>Gemini 무료 티어, Claude Code, 웹 AI, Ollama 중에서 고릅니다.</dd>
+      <dt>연습</dt><dd>저장할 때마다 채점되는 코드 과제 8개와 Designer 도전 모드가 있습니다.</dd>
+    </dl>
+  </div>
+</section>
+
+<section aria-labelledby="h-get" id="get">
+  <div class="container get">
+    <div>
+      <h2 id="h-get">Windows에 설치합니다</h2>
+      <div class="route">
+        <div>
+          <h3>설치 파일</h3>
+          <p><code>PyQtStudyHelper-Setup-1.6.0.exe</code>를 받아 실행합니다. Python이 함께 들어 있습니다.</p>
+        </div>
+        <div>
+          <h3>git과 가상환경</h3>
+          <p>Python 3.10 이상이 필요합니다.</p>
+<pre><code>git clone https://github.com/Dawnilove/PyQt_StudyHelper.git
+cd PyQt_StudyHelper
+python -m venv .venv
+.venv\Scripts\activate
+pip install -r requirements.txt
+python run.py</code></pre>
+        </div>
+      </div>
+      <div class="actions">
+        <a class="btn" href="https://github.com/Dawnilove/PyQt_StudyHelper/releases/latest">설치 파일 받기</a>
+      </div>
+    </div>
+    <div>
+      <table class="keys">
+        <caption class="visually-hidden">자주 쓰는 단축키</caption>
+        <thead><tr><th scope="col">단축키</th><th scope="col">기능</th></tr></thead>
+        <tbody>
+          <tr><td><code>Ctrl+O</code></td><td>Main.py 열기, 맞는 .ui가 미리보기에 뜸</td></tr>
+          <tr><td><code>F5</code></td><td>실행</td></tr>
+          <tr><td><code>Ctrl+E</code></td><td>AI 해설</td></tr>
+          <tr><td><code>Ctrl+D</code></td><td>Designer 열기</td></tr>
+          <tr><td><code>F2</code></td><td>objectName 바꾸기</td></tr>
+          <tr><td><code>F1</code></td><td>사용법</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="container">
+    <p class="say">self.btnGreet가 어느 버튼인지 눈으로 봅니다.</p>
+    <nav class="links" aria-label="바닥 링크">
+      <a href="https://github.com/Dawnilove/PyQt_StudyHelper">GitHub 저장소</a>
+      <a href="https://github.com/Dawnilove/PyQt_StudyHelper/blob/main/docs/FEATURES.md">전체 기능 설명</a>
+      <a href="https://github.com/Dawnilove/PyQt_StudyHelper/issues">버그 제보</a>
+      <a href="https://github.com/Dawnilove/PyQt_StudyHelper/blob/main/LICENSE">MIT 라이선스</a>
+    </nav>
+    <p class="credit">자동완성, 학습 폴더 등록, 자동 테스트는 BlackBuddle 님이 Pull Request로 추가했습니다.</p>
+  </div>
+</footer>
+
+<script>
+document.documentElement.classList.add('js');
+(() => {
+  const status = document.getElementById('status');
+  const lines = [...document.querySelectorAll('.code .ln')];
+  const widgets = [...document.querySelectorAll('.qw')];
+  const names = [...document.querySelectorAll('.w')];
+  let selected = null;
+
+  const linesOf = (w) => lines.filter((ln) => ln.querySelector(`.w[data-w="${w}"]`));
+  const clsOf = (w) => document.querySelector(`.qw[data-w="${w}"]`)?.dataset.cls || '';
+
+  const hint = status.textContent;
+
+  function usedText(w) {
+    const used = linesOf(w);
+    return used.length
+      ? `${w} (${clsOf(w)}): ${used.map((ln) => ln.dataset.n + '줄').join(', ')}에서 씁니다.`
+      : `${w} (${clsOf(w)}): Main.py에서 쓰지 않습니다. 화면에만 있습니다.`;
+  }
+
+  function show(w) {
+    widgets.forEach((el) => el.classList.toggle('on', el.dataset.w === w));
+    names.forEach((el) => el.classList.toggle('on', el.dataset.w === w));
+  }
+
+  // hover is temporary: on leave, the preview and status return to the pressed widget
+  function preview(w) {
+    show(w);
+    status.textContent = `${w} (${clsOf(w)}): 미리보기에 표시했습니다.`;
+  }
+  function restore() {
+    show(selected);
+    status.textContent = selected ? usedText(selected) : hint;
+  }
+
+  function select(w) {
+    selected = w;
+    const used = linesOf(w);
+    lines.forEach((ln) => ln.classList.toggle('lit', used.includes(ln)));
+    [...widgets, ...names].forEach((el) => el.setAttribute('aria-pressed', String(el.dataset.w === w)));
+    restore();
+  }
+
+  [...widgets, ...names].forEach((el) => el.setAttribute('aria-pressed', 'false'));
+  names.forEach((el) => {
+    const w = el.dataset.w;
+    el.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') preview(w); });
+    el.addEventListener('pointerleave', (e) => { if (e.pointerType === 'mouse') restore(); });
+    el.addEventListener('focus', () => preview(w));
+    el.addEventListener('blur', restore);
+    el.addEventListener('click', () => select(w));
+  });
+  widgets.forEach((el) => el.addEventListener('click', () => select(el.dataset.w)));
+
+  // screenshot switcher; follows the visitor's theme, also when it changes later
+  const shot = document.getElementById('shot');
+  const btns = [...document.querySelectorAll('[data-shot]')];
+  function pick(btn) {
+    btns.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+    shot.src = btn.dataset.shot;
+  }
+  btns.forEach((b) => b.addEventListener('click', () => pick(b)));
+  const dark = window.matchMedia('(prefers-color-scheme: dark)');
+  if (dark.matches) pick(btns[1]);
+  dark.addEventListener('change', (e) => pick(btns[e.matches ? 1 : 0]));
+})();
+</script>
+</body>
+</html>
